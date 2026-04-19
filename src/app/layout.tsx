@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Ishant — Creative Developer Portfolio",
+  title: "Sweta Sah — Data Analyst Portfolio",
   description:
-    "A high-end scrollytelling portfolio showcasing creative development work. Built with Next.js, Framer Motion, and scroll-linked canvas animations.",
+    "A Data Analyst portfolio showcasing data operations, SQL, and Power BI expertise. Built with Next.js and Tailwind CSS.",
 };
 
 export default function RootLayout({
