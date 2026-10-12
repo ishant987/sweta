@@ -34,54 +34,15 @@ export default function HeroSequence() {
     [0, FRAME_COUNT - 1]
   );
 
-  /* ── Text overlay timing ── */
-
-  // Section 1: Name — appears early (10%–30%), centered on face
-  const opacity1 = useTransform(
+  /* ── Hero overlay timing (Left name & Bottom about description) ── */
+  // Content is 100% visible at frame 0, stays fully visible through 0.25 scroll, then fades smoothly to 0 by 0.50 so the 3D visualizer plays clearly and overlays are cleanly gone well before the next section arrives
+  const heroContentOpacity = useTransform(
     scrollYProgress,
-    [0.08, 0.13, 0.25, 0.30],
-    [0, 1, 1, 0]
-  );
-  const y1 = useTransform(scrollYProgress, [0.08, 0.30], [30, -30]);
-  const scale1 = useTransform(scrollYProgress, [0.08, 0.15], [0.92, 1]);
-
-  // Section 2: "5+ Years Experience" — left aligned (30%–50%)
-  const opacity2 = useTransform(
-    scrollYProgress,
-    [0.28, 0.33, 0.45, 0.50],
-    [0, 1, 1, 0]
-  );
-  const y2 = useTransform(scrollYProgress, [0.28, 0.50], [50, -30]);
-
-  // Section 3: "Innovating with AI" — right aligned (50%–70%)
-  const opacity3 = useTransform(
-    scrollYProgress,
-    [0.48, 0.53, 0.65, 0.70],
-    [0, 1, 1, 0]
-  );
-  const y3 = useTransform(scrollYProgress, [0.48, 0.70], [50, -30]);
-
-  // Section 4: "Let's build together" — center (72%–90%)
-  const opacity4 = useTransform(
-    scrollYProgress,
-    [0.70, 0.75, 0.88, 0.95],
-    [0, 1, 1, 0]
-  );
-  const y4 = useTransform(scrollYProgress, [0.70, 0.95], [40, -20]);
-
-  // Scroll indicator — only at very start
-  const scrollIndicatorOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.02, 0.08],
+    [0, 0.25, 0.50],
     [1, 1, 0]
   );
-
-  // Bottom fade-to-dark gradient (intensifies near end to blend into next section)
-  const bottomFadeOpacity = useTransform(
-    scrollYProgress,
-    [0.80, 1.0],
-    [0, 1]
-  );
+  const heroNameY = useTransform(scrollYProgress, [0, 0.50], [0, -30]);
+  const heroAboutY = useTransform(scrollYProgress, [0, 0.50], [0, -20]);
 
   /* ── Canvas drawing with cover-fit ── */
   const drawFrame = useCallback((index: number) => {
@@ -107,30 +68,32 @@ export default function HeroSequence() {
     ctx.drawImage(img, sx, sy, sw, sh, 0, 0, cw, ch);
   }, []);
 
-  /* ── Preload images ── */
+  /* ── Preload images with instant first-frame render ── */
   useEffect(() => {
     let cancelled = false;
     const images: HTMLImageElement[] = [];
-    let loaded = 0;
 
-    for (let i = 0; i < FRAME_COUNT; i++) {
+    // Load first frame immediately to eliminate initial render delay
+    const firstImg = new Image();
+    firstImg.src = getFramePath(0);
+    firstImg.onload = () => {
+      if (!cancelled) {
+        setIsLoaded(true);
+        drawFrame(0);
+      }
+    };
+    firstImg.onerror = () => {
+      if (!cancelled) {
+        setIsLoaded(true);
+      }
+    };
+    images[0] = firstImg;
+
+    // Preload remaining frames in parallel
+    for (let i = 1; i < FRAME_COUNT; i++) {
       const img = new Image();
       img.src = getFramePath(i);
-      img.onload = () => {
-        loaded++;
-        if (loaded === FRAME_COUNT && !cancelled) {
-          setIsLoaded(true);
-          drawFrame(0);
-        }
-      };
-      img.onerror = () => {
-        loaded++;
-        if (loaded === FRAME_COUNT && !cancelled) {
-          setIsLoaded(true);
-          drawFrame(0);
-        }
-      };
-      images.push(img);
+      images[i] = img;
     }
     imagesRef.current = images;
     return () => { cancelled = true; };
@@ -161,9 +124,9 @@ export default function HeroSequence() {
   });
 
   return (
-    <div ref={containerRef} className="relative" style={{ height: "500vh" }}>
+    <div id="hero-container" ref={containerRef} className="relative bg-[#121212] w-full" style={{ height: "350vh" }}>
       {/* ── Sticky viewport ── */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#121212]">
         {/* Canvas */}
         <canvas
           ref={canvasRef}
@@ -192,141 +155,94 @@ export default function HeroSequence() {
           }}
         />
 
-        {/* ═══════════════ TEXT OVERLAYS ═══════════════ */}
+        {/* ═══════════════ TEXT OVERLAYS: LEFT NAME & BOTTOM ABOUT ═══════════════ */}
 
-        {/* Scroll indicator at very start */}
+        {/* ── Left Side: Name & Role (Visible immediately on initial page) ── */}
         <motion.div
-          style={{ opacity: scrollIndicatorOpacity }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30 z-10 pointer-events-none"
+          style={{ opacity: heroContentOpacity, y: heroNameY }}
+          className="absolute top-24 sm:top-28 md:top-32 lg:top-36 left-6 sm:left-10 md:left-16 lg:left-24 z-10 pointer-events-none max-w-lg"
         >
-          <span className="text-[11px] uppercase tracking-[0.25em] font-medium">
-            Scroll to explore
-          </span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 5v14M19 12l-7 7-7-7" />
-            </svg>
-          </motion.div>
-        </motion.div>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950/80 border border-blue-500/40 text-blue-200 backdrop-blur-md mb-2.5 sm:mb-3 shadow-lg shadow-blue-950/50">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+            <span className="text-[10px] sm:text-[11px] font-semibold tracking-wider uppercase text-blue-200">
+              Data Analyst &bull; 3+ Years Experience
+            </span>
+          </div>
 
-        {/* Section 1: Name — centered over the face */}
-        <motion.div
-          style={{ opacity: opacity1, y: y1, scale: scale1 }}
-          className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 z-10 pointer-events-none"
-        >
           <h1
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight"
             style={{
-              color: "rgba(255,255,255,0.85)",
-              textShadow: "0 4px 40px rgba(0,0,0,0.6), 0 0 80px rgba(0,0,0,0.3)",
+              textShadow: "0 4px 30px rgba(0,0,0,0.8), 0 0 50px rgba(0,0,0,0.5)",
             }}
           >
-            Sweta
+            Sweta Sah
           </h1>
+
           <p
-            className="mt-3 text-base md:text-lg font-light tracking-[0.15em] uppercase"
+            className="mt-1.5 sm:mt-2 text-xs sm:text-sm md:text-base font-light text-slate-300 tracking-wide"
             style={{
-              color: "rgba(255,255,255,0.45)",
-              textShadow: "0 2px 20px rgba(0,0,0,0.5)",
+              textShadow: "0 2px 20px rgba(0,0,0,0.7)",
             }}
           >
-            Data Analyst
+            Business Intelligence &bull; Power BI &bull; SQL Analytics
           </p>
         </motion.div>
 
-        {/* Section 2: "5+ Years Experience" — left aligned */}
+        {/* ── Bottom: About Myself Description (Full Width Edge-to-Edge) ── */}
         <motion.div
-          style={{ opacity: opacity2, y: y2 }}
-          className="absolute inset-0 flex flex-col justify-end items-start pb-[15vh] pl-8 md:pl-16 lg:pl-24 z-10 pointer-events-none"
+          style={{ opacity: heroContentOpacity, y: heroAboutY }}
+          className="absolute bottom-0 left-0 right-0 w-full z-10 pointer-events-none"
         >
-          <h2
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05]"
-            style={{
-              color: "rgba(255,255,255,0.9)",
-              textShadow: "0 4px 40px rgba(0,0,0,0.7)",
-            }}
-          >
-            2+ Years
-            <br />
-            Experience.
-          </h2>
-          <p
-            className="mt-4 text-sm md:text-base font-light max-w-md leading-relaxed"
-            style={{
-              color: "rgba(255,255,255,0.45)",
-              textShadow: "0 2px 20px rgba(0,0,0,0.5)",
-            }}
-          >
-            Specializing in Data Extraction, SQL, and
-            <br />
-            Power BI.
-          </p>
-        </motion.div>
+          <div className="w-full bg-[#121212]/90 border-t border-white/15 backdrop-blur-2xl px-6 sm:px-10 md:px-16 lg:px-24 py-3 sm:py-3.5 shadow-2xl shadow-black/90">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 mb-1.5">
+              <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-400">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                <span>About Myself</span>
+                <span className="text-white/25">•</span>
+                <span className="text-slate-300 font-normal">Kolkata, India</span>
+              </div>
 
-        {/* Section 3: "Innovating with AI" — right aligned */}
-        <motion.div
-          style={{ opacity: opacity3, y: y3 }}
-          className="absolute inset-0 flex flex-col justify-end items-end pb-[15vh] pr-8 md:pr-16 lg:pr-24 text-right z-10 pointer-events-none"
-        >
-          <h2
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05]"
-            style={{
-              color: "rgba(255,255,255,0.9)",
-              textShadow: "0 4px 40px rgba(0,0,0,0.7)",
-            }}
-          >
-            Data
-            <br />
-            Operations.
-          </h2>
-          <p
-            className="mt-4 text-sm md:text-base font-light max-w-md leading-relaxed"
-            style={{
-              color: "rgba(255,255,255,0.45)",
-              textShadow: "0 2px 20px rgba(0,0,0,0.5)",
-            }}
-          >
-            Ensuring Data Quality &amp; Automation
-            <br />
-            Efficiency.
-          </p>
-        </motion.div>
+              <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-slate-400">
+                <span>Scroll to explore</span>
+                <motion.span
+                  animate={{ y: [0, 3, 0] }}
+                  transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+                  className="text-blue-400"
+                >
+                  ↓
+                </motion.span>
+              </div>
+            </div>
 
-        {/* Section 4: "Let's build" — center */}
-        <motion.div
-          style={{ opacity: opacity4, y: y4 }}
-          className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 z-10 pointer-events-none"
-        >
-          <h2
-            className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tight"
-            style={{
-              color: "rgba(255,255,255,0.9)",
-              textShadow: "0 4px 40px rgba(0,0,0,0.7)",
-            }}
-          >
-            Let&apos;s build the future.
-          </h2>
-          <p
-            className="mt-4 text-sm md:text-base font-light"
-            style={{
-              color: "rgba(255,255,255,0.4)",
-              textShadow: "0 2px 20px rgba(0,0,0,0.5)",
-            }}
-          >
-            Scroll down to see my work ↓
-          </p>
-        </motion.div>
+            <p className="text-xs sm:text-[13px] md:text-sm text-white/95 font-light leading-relaxed">
+              Data Analyst &amp; Business Intelligence Specialist with 3+ years of experience transforming complex, multi-million record datasets into strategic executive insights. Microsoft Certified Power BI Data Analyst (PL-300) and 3rd Prize Winner in the Codebasics Challenge, specializing in advanced SQL querying, data modeling, and end-to-end business reporting.
+            </p>
 
-        {/* Bottom fade to #121212 (for seamless transition to next section) */}
-        <motion.div
-          style={{ opacity: bottomFadeOpacity }}
-          className="absolute bottom-0 left-0 right-0 h-[40vh] z-[6] pointer-events-none"
-          aria-hidden="true"
-        >
-          <div className="w-full h-full bg-gradient-to-b from-transparent to-[#121212]" />
+            <div className="mt-2.5 pt-2.5 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-[11px] sm:text-xs px-2.5 py-1 rounded-md bg-[#0078D4] text-white font-semibold shadow-sm">
+                  Microsoft Certified (PL-300)
+                </span>
+                <span className="text-[11px] sm:text-xs px-2.5 py-1 rounded-md bg-amber-500 text-slate-950 font-bold shadow-sm">
+                  🏆 Codebasics 3rd Prize Winner
+                </span>
+                <span className="text-[11px] sm:text-xs px-2.5 py-1 rounded-md bg-emerald-600 text-white font-semibold shadow-sm">
+                  SQL 1.5M+ Records
+                </span>
+                <span className="text-[11px] sm:text-xs px-2.5 py-1 rounded-md bg-indigo-600 text-white font-semibold shadow-sm">
+                  3+ Years Exp
+                </span>
+              </div>
+
+              <div className="hidden lg:flex items-center gap-2.5 text-slate-400 text-xs font-medium">
+                <span className="text-blue-400">Power BI</span> &bull;
+                <span className="text-emerald-400">SQL</span> &bull;
+                <span className="text-emerald-300">Excel</span> &bull;
+                <span className="text-amber-400">DAX</span> &bull;
+                <span className="text-sky-300">Python</span>
+              </div>
+            </div>
+          </div>
         </motion.div>
       </div>
     </div>

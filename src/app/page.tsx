@@ -1,5 +1,6 @@
 import HeroSequence from "@/components/HeroSequence";
 import Projects from "@/components/Projects";
+import CertificationsShowcase from "@/components/CertificationsShowcase";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -11,8 +12,11 @@ export default function Home() {
       {/* ── Hero: Scroll-linked Canvas + Pinned Text Overlays ── */}
       <HeroSequence />
 
-      {/* ── Projects Grid (appears only after sequence finishes) ── */}
+      {/* ── Projects & Career Timeline Grid ── */}
       <Projects />
+
+      {/* ── Verified Certifications & Honors Showcase ── */}
+      <CertificationsShowcase />
 
       {/* ── Footer ── */}
       <Footer />

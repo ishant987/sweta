@@ -19,25 +19,22 @@ const projectsData: Record<string, any> = {
       "Highlighted key high-value markets essential for targeted marketing campaigns.",
       "Translated raw analytical findings into clear, impactful visual summaries and business insights.",
     ],
-    coverGradient: "from-[#a78bfa]/20 via-[#121212] to-[#121212]",
-    accentColor: "text-[#a78bfa]",
   },
   "food-beverage-insights": {
     title: "Food & Beverage Consumer Insights",
     category: "Data Visualization",
     date: "Aug 2023",
-    client: "Market Research Initiative",
+    client: "Codebasics Resume Challenge",
     role: "Data Analyst",
     overview:
       "An in-depth study of consumer behaviour based on survey data collected from 10,000 respondents across 10 major cities. This project focused on understanding brand perception and defining product preferences.",
     technologies: ["MySQL", "Power BI"],
     outcomes: [
+      "Awarded 3rd Prize in Codebasics Resume Project Challenge #6 by industry evaluators.",
       "Built interactive Power BI dashboards to effectively visualize complex survey insights.",
       "Identified Bangalore, Hyderabad, and Mumbai as high-potential core markets.",
       "Formulated actionable recommendations based on evolving consumer response patterns.",
     ],
-    coverGradient: "from-[#f59e0b]/20 via-[#121212] to-[#121212]",
-    accentColor: "text-[#f59e0b]",
   },
   "sales-performance-dashboard": {
     title: "Regional Sales Performance Dashboard",
@@ -53,8 +50,6 @@ const projectsData: Record<string, any> = {
       "Performed advanced segmentation analysis to isolate the highest-value core customer demographics (specifically the 31–54 age bracket).",
       "Created an automated tracking system saving hours of manual data collation each week.",
     ],
-    coverGradient: "from-[#34d399]/20 via-[#121212] to-[#121212]",
-    accentColor: "text-[#34d399]",
   },
 };
 
@@ -76,53 +71,48 @@ export default function ProjectDetail({
   }
 
   return (
-    <main className="bg-[#121212] min-h-screen">
+    <main className="bg-[#f8fafc] min-h-screen text-slate-900">
       <Navbar />
 
-      {/* Hero Section */}
-      <section
-        className={`relative pt-40 pb-24 md:pt-52 md:pb-32 px-6 md:px-12 lg:px-20 bg-gradient-to-b ${project.coverGradient}`}
-      >
+      {/* Hero Header */}
+      <section className="relative pt-36 pb-20 md:pt-48 md:pb-24 px-6 md:px-12 lg:px-20 bg-slate-50 border-b border-slate-200/80">
         <div className="max-w-4xl mx-auto">
           <Link
             href="/#projects"
-            className="inline-flex items-center gap-2 text-sm text-white/50 hover:text-white transition-colors mb-8 md:mb-12"
+            className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-black transition-colors mb-8 md:mb-10 font-medium"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
             Back to Projects
           </Link>
           
-          <div className="flex items-center gap-4 mb-6">
-            <span
-              className={`text-xs uppercase tracking-[0.2em] font-medium px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.06] ${project.accentColor}`}
-            >
+          <div className="flex items-center gap-4 mb-5">
+            <span className="text-xs uppercase tracking-wider font-semibold px-3 py-1 rounded-full bg-blue-600 text-white shadow-2xs">
               {project.category}
             </span>
-            <span className="text-xs text-white/30 font-mono tracking-wider">
+            <span className="text-xs text-slate-500 font-mono tracking-wider font-semibold">
               {project.date}
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white/95 leading-[1.05] mb-8">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-slate-900 leading-[1.08] mb-8">
             {project.title}
           </h1>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-8 border-y border-white/[0.06] mt-12 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 py-6 border-y border-slate-200 mt-10">
              <div>
-                <h4 className="text-xs uppercase tracking-[0.15em] text-white/30 mb-2 font-semibold">My Role</h4>
-                <p className="text-sm text-white/80">{project.role}</p>
+                <h4 className="text-xs uppercase tracking-[0.15em] text-slate-400 mb-1.5 font-bold">My Role</h4>
+                <p className="text-sm text-slate-900 font-semibold">{project.role}</p>
              </div>
              <div>
-                <h4 className="text-xs uppercase tracking-[0.15em] text-white/30 mb-2 font-semibold">Client</h4>
-                <p className="text-sm text-white/80">{project.client}</p>
+                <h4 className="text-xs uppercase tracking-[0.15em] text-slate-400 mb-1.5 font-bold">Client</h4>
+                <p className="text-sm text-slate-900 font-semibold">{project.client}</p>
              </div>
              <div className="col-span-2 md:col-span-2">
-                <h4 className="text-xs uppercase tracking-[0.15em] text-white/30 mb-2 font-semibold">Tools Used</h4>
+                <h4 className="text-xs uppercase tracking-[0.15em] text-slate-400 mb-1.5 font-bold">Tools Used</h4>
                 <div className="flex flex-wrap gap-2">
                   {project.technologies.map((tech: string) => (
-                    <span key={tech} className="text-sm text-white/80">
+                    <span key={tech} className="text-xs px-2.5 py-1 rounded-md bg-blue-50 border border-blue-200/90 text-blue-800 font-semibold shadow-2xs">
                       {tech}
-                      <span className="last:hidden opacity-30 mx-2">•</span>
                     </span>
                   ))}
                 </div>
@@ -132,26 +122,26 @@ export default function ProjectDetail({
       </section>
 
       {/* Content Section */}
-      <section className="py-12 md:py-20 px-6 md:px-12 lg:px-20">
+      <section className="py-16 md:py-24 px-6 md:px-12 lg:px-20 bg-white">
         <div className="max-w-3xl mx-auto space-y-16">
           <div>
-            <h3 className="text-2xl font-bold text-white/90 mb-6 flex items-center gap-3">
-              <span className={`${project.accentColor}`}>01.</span> Project Overview
+            <h3 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3">
+              <span className="text-blue-600 font-mono text-xl font-bold">01.</span> Project Overview
             </h3>
-            <p className="text-base md:text-lg text-white/60 leading-relaxed font-light">
+            <p className="text-base md:text-lg text-slate-600 leading-relaxed font-light">
               {project.overview}
             </p>
           </div>
 
           <div>
-            <h3 className="text-2xl font-bold text-white/90 mb-6 flex items-center gap-3">
-              <span className={`${project.accentColor}`}>02.</span> Key Analytical Highlights
+            <h3 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+              <span className="text-blue-600 font-mono text-xl font-bold">02.</span> Key Analytical Highlights
             </h3>
             <div className="space-y-4">
               {project.outcomes.map((outcome: string, index: number) => (
-                <div key={index} className="flex items-start gap-4 p-6 rounded-2xl glass-card">
-                  <div className={`mt-1 flex-shrink-0 w-2 h-2 rounded-full bg-current ${project.accentColor}`} />
-                  <p className="text-base text-white/70 leading-relaxed font-light">
+                <div key={index} className="flex items-start gap-4 p-5 rounded-2xl bg-slate-50 border border-slate-200/90">
+                  <div className="mt-2 flex-shrink-0 w-2 h-2 rounded-full bg-blue-600" />
+                  <p className="text-base text-slate-700 leading-relaxed font-normal">
                     {outcome}
                   </p>
                 </div>
@@ -160,7 +150,7 @@ export default function ProjectDetail({
           </div>
           
           <div className="pt-8">
-            <div className="w-full h-px bg-gradient-to-r from-transparent via-white/[0.1] to-transparent" />
+            <div className="w-full h-px bg-slate-200" />
           </div>
         </div>
       </section>

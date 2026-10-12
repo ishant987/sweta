@@ -65,15 +65,15 @@ export default function Overlay() {
           className="absolute inset-0 flex flex-col items-center justify-center text-center px-6"
         >
           <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-[0.9]">
-            <span className="block text-white/90">Ishant</span>
+            <span className="block text-white/90">Sweta</span>
             <span className="block text-gradient mt-1 md:mt-3">
-              Creative Developer
+              Data Analyst
             </span>
           </h1>
           <p className="mt-6 md:mt-8 text-base md:text-lg text-white/40 max-w-md font-light tracking-wide">
-            Crafting immersive digital experiences
+            Transforming complex datasets into strategic decisions
             <br />
-            at the intersection of design &amp; code
+            with Power BI, SQL &amp; Business Intelligence
           </p>
         </motion.div>
 
@@ -112,14 +112,14 @@ export default function Overlay() {
           className="absolute inset-0 flex flex-col justify-center items-start text-left pl-8 md:pl-20 lg:pl-32 px-6"
         >
           <h2 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-[0.95]">
-            <span className="text-white/80">I build</span>
+            <span className="text-white/80">I uncover</span>
             <br />
-            <span className="text-gradient-warm">digital experiences</span>
+            <span className="text-gradient-warm">actionable insights</span>
           </h2>
           <p className="mt-4 md:mt-6 text-sm md:text-base text-white/35 max-w-sm font-light leading-relaxed">
-            From concept to deployment — performant, accessible,
+            From million-record datasets to executive dashboards —
             <br />
-            and beautifully crafted for the modern web.
+            delivering measurable business intelligence.
           </p>
         </motion.div>
 
@@ -129,14 +129,14 @@ export default function Overlay() {
           className="absolute inset-0 flex flex-col justify-center items-end text-right pr-8 md:pr-20 lg:pr-32 px-6"
         >
           <h2 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-[0.95]">
-            <span className="text-white/80">Bridging</span>
+            <span className="text-white/80">Certified in</span>
             <br />
-            <span className="text-gradient">design &amp; engineering</span>
+            <span className="text-gradient">Power BI &amp; SQL</span>
           </h2>
           <p className="mt-4 md:mt-6 text-sm md:text-base text-white/35 max-w-sm font-light leading-relaxed">
-            Pixel-perfect UI meets robust architecture.
+            Microsoft Certified Associate &amp; competition-proven analyst.
             <br />
-            Every interaction tells a story.
+            Turning raw numbers into compelling narratives.
           </p>
         </motion.div>
 
@@ -149,7 +149,7 @@ export default function Overlay() {
             See the work ↓
           </h2>
           <p className="mt-4 text-sm md:text-base text-white/30 font-light">
-            Selected projects &amp; case studies
+            Career journey, projects &amp; verified certifications
           </p>
         </motion.div>
       </div>
