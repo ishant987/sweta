@@ -67,6 +67,29 @@ export const PROJECTS: ProjectItem[] = [
     githubUrl: "https://github.com/Sweta-Sah/Credit_Card_Transaction_Anlysis",
   },
   {
+    slug: "bank-customer-churn-analysis",
+    title: "Bank Customer Churn Analysis",
+    category: "Customer Analytics",
+    year: "2024",
+    date: "2024",
+    description:
+      "Used Python and Pandas to clean bank customer data, perform exploratory data analysis (EDA), and prepare a structured, model-ready dataset across 10,000 customer records.",
+    tags: ["Python", "Pandas", "NumPy", "EDA", "Matplotlib", "Seaborn"],
+    client: "Banking & Financial Services",
+    role: "Data Analyst",
+    overview:
+      "This project uses Python and Pandas to clean bank customer data, perform exploratory data analysis (EDA), and prepare a structured dataset for further analysis and machine learning. The business objective is to understand customer churn patterns and identify customer characteristics that may be associated with a higher likelihood of leaving the bank.",
+    technologies: ["Python", "Pandas", "NumPy", "Matplotlib", "Seaborn", "Google Colab", "Jupyter Notebook"],
+    outcomes: [
+      "Total customer records analyzed: 10,000 (2,037 exited customers vs. 7,963 retained customers, representing an overall churn rate of 20.37%).",
+      "Merged customer and account datasets using CustomerId and removed duplicate and inconsistent records.",
+      "Cleaned data values, handled missing data, and performed thorough exploratory data analysis (EDA).",
+      "Analyzed churn patterns across customer segments and created visualizations exploring numerical and categorical variables.",
+      "Conducted feature engineering to prepare a clean, structured, model-ready dataset for downstream machine learning modeling.",
+    ],
+    githubUrl: "https://github.com/Sweta-Sah/bank-customer-churn-analysis",
+  },
+  {
     slug: "sales-dashboard-excel",
     title: "Sales Dashboard — Excel",
     category: "Spreadsheet Analytics",

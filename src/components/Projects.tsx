@@ -199,6 +199,11 @@ const PROJECT_THEMES: Record<
     categoryBadge: "bg-blue-600 text-white font-semibold",
     ctaText: "text-blue-600 group-hover:text-blue-700",
   },
+  "bank-customer-churn-analysis": {
+    topBorder: "border-t-4 border-t-teal-600",
+    categoryBadge: "bg-teal-600 text-white font-semibold",
+    ctaText: "text-teal-600 group-hover:text-teal-700",
+  },
   "sales-dashboard-excel": {
     topBorder: "border-t-4 border-t-emerald-600",
     categoryBadge: "bg-emerald-600 text-white font-semibold",
@@ -493,7 +498,7 @@ export default function Projects() {
                 Featured Projects
               </h2>
               <p className="mt-3 text-sm sm:text-base text-slate-600 max-w-xl font-light leading-relaxed">
-                6 curated analytics projects spanning survey segmentation, financial fraud/transactions, sales intelligence, and SQL case studies.
+                7 curated analytics projects spanning customer churn modeling, survey segmentation, financial analytics, sales intelligence, and SQL case studies.
               </p>
             </div>
 
@@ -511,7 +516,7 @@ export default function Projects() {
           </motion.div>
         </div>
 
-        {/* Project grid: all 6 projects */}
+        {/* Project grid: all 7 projects */}
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {PROJECTS.map((project, i) => (
             <ProjectCard
@@ -542,13 +547,13 @@ export default function Projects() {
                 Open Source &amp; Analytical Activity
               </h3>
               <p className="text-sm text-slate-300 max-w-2xl font-light leading-relaxed">
-                6 active public repositories dedicated to SQL optimization, Power BI interactive dashboard reporting, and business datasets.
+                7 active public repositories dedicated to SQL optimization, Python data analytics, Power BI interactive dashboard reporting, and business datasets.
               </p>
 
               {/* GitHub metrics strip */}
               <div className="flex flex-wrap items-center gap-3 pt-2 text-xs">
                 <span className="px-3 py-1.5 rounded-lg bg-white/[0.08] border border-white/10 text-slate-200 font-mono">
-                  📊 6 Analytical Repositories
+                  📊 7 Analytical Repositories
                 </span>
                 <span className="px-3 py-1.5 rounded-lg bg-white/[0.08] border border-white/10 text-slate-200 font-mono">
                   🏆 Ranked 3rd in Codebasics Challenge
