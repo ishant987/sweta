@@ -2,8 +2,8 @@
 
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import Link from "next/link";
-import ProjectModal, { PROJECTS_DETAILED } from "@/components/ProjectModal";
+import ProjectModal from "@/components/ProjectModal";
+import { PROJECTS, ProjectItem, PROJECTS_MAP } from "@/data/projects";
 
 /* ═══════════════════════════════════════════
    CAREER TIMELINE
@@ -14,29 +14,42 @@ interface TimelineEntry {
   company: string;
   role: string;
   description: string;
+  highlights: string[];
 }
 
 const timeline: TimelineEntry[] = [
   {
     period: "May 2024 — Present",
-    company: "Infrrd Pvt. Ltd",
+    company: "Infrrd Pvt. Ltd. (via Cosmonet AI)",
     role: "Data Processing Executive",
     description:
-      "Extracted, classified, and validated data from complex structured and unstructured documents across multiple industries using an AI-powered IDP platform. Delivered consistently high-quality labelled datasets to improve ML model performance.",
+      "Contribute to AI-powered Intelligent Document Processing (IDP) workflows for US insurance, mortgage, and banking clients.",
+    highlights: [
+      "Auto Insurance (State National - US client): Contributed to the end-to-end development of live IDP product for document classification & data extraction; trained a team of 8 on extraction workflows, business rules, and quality standards.",
+      "US Mortgage Portfolio: Pre-underwriting analyst training machine learning models on extraction, document classification, versioning, and document tagging; supported multi-stage UAT and production verification.",
+      "Banking Project (Laminr - US client): Performing SLA-bound data extraction on live workflows meeting turnaround and quality targets; active in daily stakeholder reviews.",
+      "Quality & Root Cause Analysis: Conducted root cause analysis on recurring extraction and workflow issues, developed SOPs, and recommended product improvements to engineering and product teams.",
+    ],
   },
   {
-    period: "April 2023 — March 2024",
-    company: "AIMonk Labs Pvt. Ltd",
+    period: "Apr 2023 — Mar 2024",
+    company: "AIMonk Labs Pvt. Ltd.",
     role: "Annotation Executive",
     description:
-      "Executed large-scale data annotation across image, text, and audio datasets for computer vision and generative AI projects. Managed multiple annotation projects simultaneously, maintaining high accuracy under strict deadlines.",
+      "Performed data annotation and quality validation across image, text, and document datasets for AI and machine learning projects.",
+    highlights: [
+      "Collaborated with QA teams and ML engineers to clarify annotation guidelines, investigate error and rejection patterns, and improve dataset consistency and model performance.",
+      "Prepared annotation guidelines, SOP documentation, and successfully onboarded new team members on workflows and quality standards.",
+      "Consistently achieved high productivity, quality validation, and turnaround SLAs across multiple client projects.",
+    ],
   },
   {
     period: "2019 — 2022",
     company: "Jadavpur University",
-    role: "Bachelor of Textile Science",
+    role: "Bachelor of Science (Honours) — Textile Science, Clothing and Fashion Studies",
     description:
-      "Graduated with a CGPA of 9.43.",
+      "Graduated with Distinction | CGPA: 9.43 / 10",
+    highlights: [],
   },
 ];
 
@@ -74,7 +87,7 @@ function TimelineItem({
         }`}
       />
 
-      {/* Period */}
+      {/* Period badge */}
       {index === 0 ? (
         <span className="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-white font-mono font-bold bg-blue-600 px-3 py-1 rounded-full shadow-2xs mb-1">
           <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
@@ -87,101 +100,124 @@ function TimelineItem({
       )}
 
       {/* Company & role */}
-      <h3 className="text-xl md:text-2xl font-bold text-slate-900 mt-1 leading-tight">
+      <h3 className="text-xl md:text-2xl font-bold text-slate-900 mt-1.5 leading-tight">
         {entry.company}
       </h3>
-      <p className="text-sm text-slate-700 font-medium mt-1">
+      <p className="text-sm text-blue-600 font-semibold mt-0.5">
         {entry.role}
       </p>
 
       {/* Description */}
-      <p className="text-sm text-slate-600 leading-relaxed mt-2.5 max-w-lg font-light">
+      <p className="text-sm text-slate-600 leading-relaxed mt-2 max-w-xl font-light">
         {entry.description}
       </p>
+
+      {/* Bullet highlights */}
+      {entry.highlights && entry.highlights.length > 0 && (
+        <ul className="mt-3 space-y-1.5">
+          {entry.highlights.map((h, i) => (
+            <li key={i} className="text-xs text-slate-600 flex items-start gap-2 leading-relaxed">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0 mt-1.5" />
+              <span>{h}</span>
+            </li>
+          ))}
+        </ul>
+      )}
     </motion.div>
   );
 }
 
 /* ═══════════════════════════════════════════
-   PROJECTS
+   TECHNICAL SKILLS MATRIX
    ═══════════════════════════════════════════ */
 
-interface Project {
+interface SkillCategory {
   title: string;
-  category: string;
-  description: string;
-  tags: string[];
-  year: string;
-  slug: string;
-  award?: string;
+  badge: string;
+  badgeColor: string;
+  skills: string[];
 }
 
-const projects: Project[] = [
+const skillCategories: SkillCategory[] = [
   {
-    title: "Credit Card Transaction Analysis",
-    category: "Data Analysis",
-    description:
-      "Analysed a large credit card transaction dataset to identify spending patterns. Identified the top 5 cities contributing 58% of total spending.",
-    tags: ["MySQL", "Excel"],
-    year: "2024",
-    slug: "credit-card-analysis",
+    title: "Data Analysis & Programming",
+    badge: "Core",
+    badgeColor: "bg-blue-50 text-blue-700 border-blue-200",
+    skills: ["SQL (MySQL)", "Python (Fundamentals)", "Statistics & Probability", "Data Cleaning", "CTEs & Window Functions"],
   },
   {
-    title: "Food & Beverage Consumer Insights",
-    category: "Data Visualization",
-    description:
-      "Analysed survey data from 10,000 respondents to understand consumer behaviour. Built interactive Power BI dashboards to visualise insights.",
-    tags: ["MySQL", "Power BI"],
-    year: "2023",
-    slug: "food-beverage-insights",
-    award: "🏆 3rd Prize Winner — Codebasics Challenge",
+    title: "Visualisation & BI",
+    badge: "Certified",
+    badgeColor: "bg-amber-50 text-amber-800 border-amber-200",
+    skills: ["Power BI (PL-300)", "DAX Modeling", "Power Query", "Microsoft Excel", "PivotTables & Slicers", "Executive Dashboards"],
   },
   {
-    title: "Regional Sales Performance Dashboard",
-    category: "Dashboard Design",
-    description:
-      "Designed an interactive Excel dashboard to monitor regional sales performance globally. Identified leading regions and key demographic segments.",
-    tags: ["Excel", "Data Segmentation"],
-    year: "2023",
-    slug: "sales-performance-dashboard",
+    title: "AI & Document Processing",
+    badge: "Enterprise",
+    badgeColor: "bg-sky-50 text-sky-800 border-sky-200",
+    skills: ["Intelligent Document Processing (IDP)", "Document Classification", "Data Extraction & Versioning", "UAT Validation"],
+  },
+  {
+    title: "Business & Analytical Skills",
+    badge: "Process",
+    badgeColor: "bg-emerald-50 text-emerald-800 border-emerald-200",
+    skills: ["Requirement Gathering", "Root Cause Analysis", "Stakeholder Communication", "SOP Development", "AS-IS & TO-BE Analysis"],
+  },
+  {
+    title: "Graduate Academic Interests",
+    badge: "Master's Focus",
+    badgeColor: "bg-purple-50 text-purple-800 border-purple-200",
+    skills: ["SQL", "Power BI", "Python", "Predictive Analytics", "AI Applications", "Decision Intelligence"],
+  },
+  {
+    title: "Honors & Academic Credentials",
+    badge: "Distinction",
+    badgeColor: "bg-indigo-50 text-indigo-800 border-indigo-200",
+    skills: ["CGPA: 9.43 / 10 (Honours)", "Codebasics Challenge Rank 3rd", "Microsoft Certified PL-300", "SQL Advanced (70%+)"],
   },
 ];
+
+/* ═══════════════════════════════════════════
+   PROJECT THEMES & CARDS
+   ═══════════════════════════════════════════ */
 
 const PROJECT_THEMES: Record<
   string,
   {
     topBorder: string;
     categoryBadge: string;
-    tagStyles: Record<string, string>;
     ctaText: string;
   }
 > = {
+  "consumer-engagement-market-insights": {
+    topBorder: "border-t-4 border-t-amber-500",
+    categoryBadge: "bg-amber-500 text-slate-950 font-bold",
+    ctaText: "text-amber-700 group-hover:text-amber-800",
+  },
   "credit-card-analysis": {
     topBorder: "border-t-4 border-t-blue-600",
     categoryBadge: "bg-blue-600 text-white font-semibold",
-    tagStyles: {
-      MySQL: "bg-sky-100 text-sky-800 border-sky-300 font-semibold",
-      Excel: "bg-emerald-100 text-emerald-800 border-emerald-300 font-semibold",
-    },
     ctaText: "text-blue-600 group-hover:text-blue-700",
   },
-  "food-beverage-insights": {
-    topBorder: "border-t-4 border-t-amber-500",
-    categoryBadge: "bg-indigo-600 text-white font-semibold",
-    tagStyles: {
-      MySQL: "bg-sky-100 text-sky-800 border-sky-300 font-semibold",
-      "Power BI": "bg-amber-100 text-amber-900 border-amber-300 font-semibold",
-    },
-    ctaText: "text-indigo-600 group-hover:text-indigo-700",
-  },
-  "sales-performance-dashboard": {
+  "sales-dashboard-excel": {
     topBorder: "border-t-4 border-t-emerald-600",
     categoryBadge: "bg-emerald-600 text-white font-semibold",
-    tagStyles: {
-      Excel: "bg-emerald-100 text-emerald-800 border-emerald-300 font-semibold",
-      "Data Segmentation": "bg-purple-100 text-purple-800 border-purple-300 font-semibold",
-    },
     ctaText: "text-emerald-700 group-hover:text-emerald-800",
+  },
+  "sales-insights-atliq-hardware": {
+    topBorder: "border-t-4 border-t-indigo-600",
+    categoryBadge: "bg-indigo-600 text-white font-semibold",
+    ctaText: "text-indigo-600 group-hover:text-indigo-700",
+  },
+  "ecommerce-sales-insights": {
+    topBorder: "border-t-4 border-t-sky-600",
+    categoryBadge: "bg-sky-600 text-white font-semibold",
+    ctaText: "text-sky-600 group-hover:text-sky-700",
+  },
+  "sql-case-studies": {
+    topBorder: "border-t-4 border-t-purple-600",
+    categoryBadge: "bg-purple-600 text-white font-semibold",
+    ctaText: "text-purple-600 group-hover:text-purple-700",
   },
 };
 
@@ -190,7 +226,7 @@ function ProjectCard({
   index,
   onOpen,
 }: {
-  project: Project;
+  project: ProjectItem;
   index: number;
   onOpen: () => void;
 }) {
@@ -199,71 +235,75 @@ function ProjectCard({
   const theme = PROJECT_THEMES[project.slug] || {
     topBorder: "border-t-4 border-t-slate-800",
     categoryBadge: "bg-slate-800 text-white font-semibold",
-    tagStyles: {},
     ctaText: "text-slate-800 group-hover:text-black",
   };
 
   return (
-    <div onClick={onOpen} className="block text-left cursor-pointer">
+    <div onClick={onOpen} className="block text-left cursor-pointer h-full">
       <motion.div
         ref={ref}
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
         transition={{
           duration: 0.5,
-          delay: index * 0.12,
+          delay: index * 0.08,
           ease: [0.25, 0.46, 0.45, 0.94],
         }}
-        className={`card-light rounded-2xl p-6 md:p-8 group relative overflow-hidden flex flex-col justify-between bg-white border border-slate-200/90 hover:border-slate-400 hover:shadow-lg transition-all h-full ${theme.topBorder}`}
+        className={`card-light rounded-2xl p-6 md:p-7 group relative overflow-hidden flex flex-col justify-between bg-white border border-slate-200/90 hover:border-slate-400 hover:shadow-lg transition-all h-full ${theme.topBorder}`}
       >
         <div>
           {/* Top row */}
-          <div className="flex items-center justify-between mb-4">
-            <span className={`text-xs uppercase tracking-wider px-3 py-1 rounded-full shadow-2xs ${theme.categoryBadge}`}>
+          <div className="flex items-center justify-between gap-2 mb-3">
+            <span className={`text-[11px] uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-2xs ${theme.categoryBadge}`}>
               {project.category}
             </span>
-            <span className="text-xs text-slate-500 font-mono font-semibold">{project.year}</span>
+            <div className="flex items-center gap-2">
+              {project.stars !== undefined && project.stars > 0 && (
+                <span className="text-[10px] text-amber-700 font-mono font-semibold bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full flex items-center gap-1">
+                  ★ {project.stars}
+                </span>
+              )}
+              <span className="text-xs text-slate-500 font-mono font-semibold">{project.year}</span>
+            </div>
           </div>
 
           {/* Award badge if present */}
           {project.award && (
-            <div className="mb-3.5">
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full bg-amber-500 text-slate-950 shadow-xs">
+            <div className="mb-3">
+              <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-amber-500 text-slate-950 shadow-xs">
                 {project.award}
               </span>
             </div>
           )}
 
           {/* Title */}
-          <h3 className="text-xl font-bold text-slate-900 mb-2.5 group-hover:text-blue-600 transition-colors leading-snug">
+          <h3 className="text-lg md:text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors leading-snug">
             {project.title}
           </h3>
 
           {/* Description */}
-          <p className="text-sm text-slate-600 leading-relaxed mb-6 font-light">
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-5 font-light">
             {project.description}
           </p>
         </div>
 
         <div>
           {/* Tags */}
-          <div className="flex flex-wrap gap-2 pt-4 border-t border-slate-100">
+          <div className="flex flex-wrap gap-1.5 pt-3.5 border-t border-slate-100 mb-4">
             {project.tags.map((tag) => (
               <span
                 key={tag}
-                className={`text-xs px-2.5 py-1 rounded-md border ${
-                  theme.tagStyles[tag] || "bg-slate-100 text-slate-700 border-slate-200 font-medium"
-                }`}
+                className="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200/80 font-medium"
               >
                 {tag}
               </span>
             ))}
           </div>
 
-          {/* Arrow / CTA */}
-          <div className="flex items-center justify-between mt-5 pt-3 border-t border-slate-100">
-            <div className={`flex items-center gap-1 text-xs font-semibold ${theme.ctaText} transition-colors`}>
-              <span>View Case Study</span>
+          {/* Action Row */}
+          <div className="flex items-center justify-between pt-3 border-t border-slate-100">
+            <div className={`flex items-center gap-1 text-xs font-bold ${theme.ctaText} transition-colors`}>
+              <span>Case Study</span>
               <svg
                 width="14"
                 height="14"
@@ -278,7 +318,21 @@ function ProjectCard({
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </div>
-            <span className="text-[11px] text-slate-400 font-medium">Quick Preview</span>
+
+            {/* Direct GitHub repo link button */}
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-1 text-[11px] px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition-colors border border-slate-200"
+              title="Open GitHub Repository"
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+              </svg>
+              <span>GitHub</span>
+            </a>
           </div>
         </div>
       </motion.div>
@@ -287,71 +341,65 @@ function ProjectCard({
 }
 
 /* ═══════════════════════════════════════════
-   MAIN EXPORT
+   MAIN COMPONENT EXPORT
    ═══════════════════════════════════════════ */
 
 export default function Projects() {
   const timelineRef = useRef<HTMLDivElement>(null);
+  const skillsRef = useRef<HTMLDivElement>(null);
   const projectsRef = useRef<HTMLDivElement>(null);
-  const timelineInView = useInView(timelineRef, {
-    once: true,
-    margin: "-80px",
-  });
-  const projectsInView = useInView(projectsRef, {
-    once: true,
-    margin: "-100px",
-  });
+  const githubRef = useRef<HTMLDivElement>(null);
+
+  const timelineInView = useInView(timelineRef, { once: true, margin: "-80px" });
+  const skillsInView = useInView(skillsRef, { once: true, margin: "-80px" });
+  const projectsInView = useInView(projectsRef, { once: true, margin: "-100px" });
+  const githubInView = useInView(githubRef, { once: true, margin: "-80px" });
+
   const [selectedProjectIndex, setSelectedProjectIndex] = useState<number | null>(null);
 
   const selectedProject =
-    selectedProjectIndex !== null
-      ? PROJECTS_DETAILED[projects[selectedProjectIndex].slug]
-      : null;
+    selectedProjectIndex !== null ? PROJECTS[selectedProjectIndex] : null;
 
   const handleNext = () => {
     if (selectedProjectIndex !== null) {
-      setSelectedProjectIndex((selectedProjectIndex + 1) % projects.length);
+      setSelectedProjectIndex((selectedProjectIndex + 1) % PROJECTS.length);
     }
   };
 
   const handlePrev = () => {
     if (selectedProjectIndex !== null) {
       setSelectedProjectIndex(
-        (selectedProjectIndex - 1 + projects.length) % projects.length
+        (selectedProjectIndex - 1 + PROJECTS.length) % PROJECTS.length
       );
     }
   };
 
   return (
-    <div className="bg-[#f8fafc] text-slate-900 relative z-10">
+    <div className="bg-[#f8fafc] text-slate-900 relative z-10 border-t border-slate-200/80">
       {/* ═══════════════ CAREER TIMELINE ═══════════════ */}
       <section
         id="about"
-        className="relative py-24 md:py-32 px-6 md:px-12 lg:px-20"
+        className="relative py-16 md:py-28 px-4 sm:px-6 md:px-12 lg:px-20"
       >
         <div className="max-w-4xl mx-auto">
           {/* Heading */}
-          <div ref={timelineRef} className="mb-16 md:mb-20 text-center">
+          <div ref={timelineRef} className="mb-12 md:mb-18 text-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
-              animate={
-                timelineInView
-                  ? { opacity: 1, y: 0 }
-                  : { opacity: 0, y: 30 }
-              }
+              animate={timelineInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
             >
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200/90 mb-3 shadow-2xs">
                 <span className="w-2 h-2 rounded-full bg-blue-600" />
                 <span className="text-xs uppercase tracking-[0.2em] font-bold text-blue-700 font-mono">
-                  Professional Journey
+                  Experience &amp; Academic Background
                 </span>
               </div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900">
-                Career Timeline
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900">
+                Professional &amp; Academic Journey
               </h2>
-              <p className="mt-3 text-base text-slate-600 font-light max-w-md mx-auto">
-                Track record in data processing, classification, and technical analysis.
+              <p className="mt-3 text-sm sm:text-base text-slate-600 font-light max-w-2xl mx-auto">
+                3+ years of experience supporting AI-enabled digital transformation initiatives across US insurance, mortgage, and banking domains.
               </p>
             </motion.div>
           </div>
@@ -365,47 +413,175 @@ export default function Projects() {
         </div>
       </section>
 
-      {/* ═══════════════ PROJECTS ═══════════════ */}
-      <section
-        id="projects"
-        className="relative py-20 md:py-28 px-6 md:px-12 lg:px-20 border-t border-slate-200/80 bg-white"
-      >
-        {/* Section heading */}
-        <div ref={projectsRef} className="max-w-6xl mx-auto mb-16 md:mb-20">
+      {/* ═══════════════ TECHNICAL SKILLS ═══════════════ */}
+      <section className="relative py-14 md:py-24 px-4 sm:px-6 md:px-12 lg:px-20 bg-slate-50 border-t border-slate-200/80">
+        <div ref={skillsRef} className="max-w-6xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={
-              projectsInView
-                ? { opacity: 1, y: 0 }
-                : { opacity: 0, y: 30 }
-            }
-            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+            initial={{ opacity: 0, y: 25 }}
+            animate={skillsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 25 }}
+            transition={{ duration: 0.6 }}
+            className="mb-12 text-center"
           >
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200/90 mb-3 shadow-2xs">
               <span className="w-2 h-2 rounded-full bg-blue-600" />
               <span className="text-xs uppercase tracking-[0.2em] font-bold text-blue-700 font-mono">
-                Selected Work
+                Technical Toolkit
               </span>
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 leading-[1.08]">
-              Analytical Projects &amp; Case Studies
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-slate-900">
+              Core Skills &amp; Competencies
             </h2>
-            <p className="mt-4 text-base text-slate-600 max-w-xl font-light leading-relaxed">
-              Curated analytics projects combining structured SQL querying, interactive Power BI dashboards, and data-driven business recommendations.
+            <p className="mt-2.5 text-sm sm:text-base text-slate-600 font-light max-w-lg mx-auto">
+              Structured capabilities across SQL querying, BI modeling, and production operations.
             </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {skillCategories.map((cat, idx) => (
+              <motion.div
+                key={cat.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={skillsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.5, delay: idx * 0.08 }}
+                className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-base font-bold text-slate-900">{cat.title}</h3>
+                    <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded border ${cat.badgeColor}`}>
+                      {cat.badge}
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5 mt-2">
+                    {cat.skills.map((skill) => (
+                      <span
+                        key={skill}
+                        className="text-xs px-2.5 py-1 rounded-md bg-slate-50 text-slate-700 border border-slate-200 font-medium"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════ SELECTED WORK (6 PROJECTS) ═══════════════ */}
+      <section
+        id="projects"
+        className="relative py-16 md:py-28 px-4 sm:px-6 md:px-12 lg:px-20 border-t border-slate-200/80 bg-white"
+      >
+        {/* Section heading */}
+        <div ref={projectsRef} className="max-w-6xl mx-auto mb-12 md:mb-18">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={projectsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="flex flex-col md:flex-row md:items-end justify-between gap-6"
+          >
+            <div>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200/90 mb-3 shadow-2xs">
+                <span className="w-2 h-2 rounded-full bg-blue-600" />
+                <span className="text-xs uppercase tracking-[0.2em] font-bold text-blue-700 font-mono">
+                  GitHub Repositories
+                </span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 leading-[1.08]">
+                Featured Projects
+              </h2>
+              <p className="mt-3 text-sm sm:text-base text-slate-600 max-w-xl font-light leading-relaxed">
+                6 curated analytics projects spanning survey segmentation, financial fraud/transactions, sales intelligence, and SQL case studies.
+              </p>
+            </div>
+
+            <a
+              href="https://github.com/Sweta-Sah"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-900 hover:bg-black text-white text-xs font-semibold transition-all shadow-sm self-start md:self-auto"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+              </svg>
+              <span>Follow @Sweta-Sah on GitHub</span>
+            </a>
           </motion.div>
         </div>
 
-        {/* Project grid */}
+        {/* Project grid: all 6 projects */}
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project, i) => (
+          {PROJECTS.map((project, i) => (
             <ProjectCard
-              key={project.title}
+              key={project.slug}
               project={project}
               index={i}
               onOpen={() => setSelectedProjectIndex(i)}
             />
           ))}
+        </div>
+      </section>
+
+      {/* ═══════════════ GITHUB PROFILE & ACTIVITY BANNER ═══════════════ */}
+      <section className="relative py-12 md:py-16 px-4 sm:px-6 md:px-12 lg:px-20 bg-slate-900 text-white border-t border-slate-800">
+        <div ref={githubRef} className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={githubInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8"
+          >
+            <div className="space-y-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-mono text-emerald-400">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>github.com/Sweta-Sah</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-white">
+                Open Source &amp; Analytical Activity
+              </h3>
+              <p className="text-sm text-slate-300 max-w-2xl font-light leading-relaxed">
+                6 active public repositories dedicated to SQL optimization, Power BI interactive dashboard reporting, and business datasets.
+              </p>
+
+              {/* GitHub metrics strip */}
+              <div className="flex flex-wrap items-center gap-3 pt-2 text-xs">
+                <span className="px-3 py-1.5 rounded-lg bg-white/[0.08] border border-white/10 text-slate-200 font-mono">
+                  📊 6 Analytical Repositories
+                </span>
+                <span className="px-3 py-1.5 rounded-lg bg-white/[0.08] border border-white/10 text-slate-200 font-mono">
+                  🏆 Ranked 3rd in Codebasics Challenge
+                </span>
+                <span className="px-3 py-1.5 rounded-lg bg-white/[0.08] border border-white/10 text-slate-200 font-mono">
+                  🎓 Microsoft Certified PL-300
+                </span>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
+              <a
+                href="https://github.com/Sweta-Sah"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-all shadow-md shadow-blue-600/30 flex items-center justify-center gap-2"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+                </svg>
+                <span>View Full GitHub Profile</span>
+              </a>
+              <a
+                href="https://github.com/Sweta-Sah/SQL_CASE_STUDIES"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto px-5 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold text-xs transition-all border border-white/20 flex items-center justify-center gap-1.5"
+              >
+                <span>Browse SQL Scripts</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+              </a>
+            </div>
+          </motion.div>
         </div>
       </section>
 

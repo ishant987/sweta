@@ -1,77 +1,16 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { ProjectItem, PROJECTS, PROJECTS_MAP } from "@/data/projects";
 
-export interface ProjectDetailData {
-  title: string;
-  category: string;
-  date: string;
-  client: string;
-  role: string;
-  overview: string;
-  technologies: string[];
-  outcomes: string[];
-  slug: string;
-  award?: string;
-}
-
-export const PROJECTS_DETAILED: Record<string, ProjectDetailData> = {
-  "credit-card-analysis": {
-    slug: "credit-card-analysis",
-    title: "Credit Card Transaction Analysis",
-    category: "Data Analysis",
-    date: "May 2024",
-    client: "Internal Data Science Project",
-    role: "Data Analyst",
-    overview:
-      "A comprehensive analysis of a large credit card transaction dataset. The project focused on uncovering deep spending patterns across various geographic regions, diverse demographics, and specific card types to drive strategic business decisions.",
-    technologies: ["MySQL", "Advanced Excel"],
-    outcomes: [
-      "Identified the top 5 cities contributing to 58.6% of the total spending.",
-      "Highlighted key high-value markets essential for targeted marketing campaigns.",
-      "Translated raw analytical findings into clear, impactful visual summaries and business insights.",
-    ],
-  },
-  "food-beverage-insights": {
-    slug: "food-beverage-insights",
-    title: "Food & Beverage Consumer Insights",
-    category: "Data Visualization",
-    date: "Aug 2023",
-    client: "Codebasics Resume Challenge",
-    role: "Data Analyst",
-    overview:
-      "An in-depth study of consumer behaviour based on survey data collected from 10,000 respondents across 10 major cities. This project focused on understanding brand perception and defining product preferences.",
-    technologies: ["MySQL", "Power BI"],
-    award: "🏆 3rd Prize Winner — Codebasics Challenge",
-    outcomes: [
-      "Awarded 3rd Prize in Codebasics Resume Project Challenge #6 by industry evaluators.",
-      "Built interactive Power BI dashboards to effectively visualize complex survey insights.",
-      "Identified Bangalore, Hyderabad, and Mumbai as high-potential core markets.",
-      "Formulated actionable recommendations based on evolving consumer response patterns.",
-    ],
-  },
-  "sales-performance-dashboard": {
-    slug: "sales-performance-dashboard",
-    title: "Regional Sales Performance Dashboard",
-    category: "Dashboard Design",
-    date: "Mar 2023",
-    client: "Global Sales Strategy Project",
-    role: "Data Analyst",
-    overview:
-      "Designed and implemented a sophisticated, interactive Excel dashboard targeted at monitoring and decoding regional sales performance across Europe, North America, and the Pacific regions.",
-    technologies: ["Advanced Excel", "Data Segmentation"],
-    outcomes: [
-      "Identified North America as the leading global region, driving 41.5% of total international purchases.",
-      "Performed advanced segmentation analysis to isolate the highest-value core customer demographics (specifically the 31–54 age bracket).",
-      "Created an automated tracking system saving hours of manual data collation each week.",
-    ],
-  },
-};
+export type { ProjectItem as ProjectDetailData };
+export { PROJECTS_MAP as PROJECTS_DETAILED };
 
 interface ProjectModalProps {
-  project: ProjectDetailData | null;
+  project: ProjectItem | null;
   onClose: () => void;
   onNext?: () => void;
   onPrev?: () => void;
@@ -83,6 +22,12 @@ export default function ProjectModal({
   onNext,
   onPrev,
 }: ProjectModalProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -93,18 +38,29 @@ export default function ProjectModal({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [onClose, onNext, onPrev]);
 
-  if (!project) return null;
+  useEffect(() => {
+    if (!mounted) return;
+    if (project) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [mounted, project]);
 
-  return (
+  if (!mounted || !project) return null;
+
+  return createPortal(
     <AnimatePresence>
-      <div className="fixed inset-0 z-[80] flex items-center justify-center p-4 sm:p-6 md:p-8 pt-20 sm:pt-20 md:pt-24">
+      <div className="fixed inset-0 z-[90] flex items-center justify-center p-3 sm:p-6 md:p-8 pt-16 sm:pt-20 md:pt-24">
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="absolute inset-0 bg-black/70 backdrop-blur-sm cursor-pointer"
+          className="absolute inset-0 bg-black/75 backdrop-blur-md cursor-pointer"
         />
 
         {/* Modal Card */}
@@ -113,14 +69,14 @@ export default function ProjectModal({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.96, y: 20 }}
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="relative z-10 w-full max-w-4xl max-h-[85vh] overflow-y-auto bg-white border border-slate-200/90 rounded-2xl md:rounded-3xl shadow-2xl flex flex-col p-6 sm:p-8 md:p-10 text-slate-900"
+          className="relative z-10 w-full max-w-4xl max-h-[88vh] sm:max-h-[85vh] overflow-y-auto bg-white border border-slate-200/90 rounded-2xl md:rounded-3xl shadow-2xl flex flex-col p-4 sm:p-8 md:p-10 text-slate-900"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Close button */}
           <button
             onClick={onClose}
             aria-label="Close modal"
-            className="absolute top-4 right-4 sm:top-6 sm:right-6 z-20 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-black flex items-center justify-center transition-all border border-slate-200 shadow-xs"
+            className="absolute top-3.5 right-3.5 sm:top-6 sm:right-6 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-black flex items-center justify-center transition-all border border-slate-200 shadow-xs"
           >
             <svg
               width="18"
@@ -138,7 +94,7 @@ export default function ProjectModal({
           </button>
 
           {/* Header Row */}
-          <div className="flex flex-wrap items-center gap-3 mb-4">
+          <div className="flex flex-wrap items-center gap-2.5 mb-3.5 pr-12">
             <span className="text-xs uppercase tracking-wider font-semibold px-3 py-1 rounded-full bg-blue-600 text-white shadow-2xs">
               {project.category}
             </span>
@@ -148,6 +104,11 @@ export default function ProjectModal({
             {project.award && (
               <span className="text-xs font-bold px-3 py-1 rounded-full bg-amber-500 text-slate-950 shadow-2xs">
                 {project.award}
+              </span>
+            )}
+            {project.stars !== undefined && project.stars > 0 && (
+              <span className="inline-flex items-center gap-1 text-xs px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200 font-mono font-medium">
+                ★ {project.stars}
               </span>
             )}
           </div>
@@ -211,38 +172,45 @@ export default function ProjectModal({
           </div>
 
           {/* Bottom Actions */}
-          <div className="pt-5 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
+          <div className="pt-5 border-t border-slate-200 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
+            <div className="flex items-center justify-between sm:justify-start gap-2">
               {onPrev && (
                 <button
                   onClick={onPrev}
-                  className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium transition-colors border border-slate-200"
+                  className="flex-1 sm:flex-initial px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium transition-colors border border-slate-200 text-center"
                 >
-                  ← Previous Work
+                  ← Prev
                 </button>
               )}
               {onNext && (
                 <button
                   onClick={onNext}
-                  className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium transition-colors border border-slate-200"
+                  className="flex-1 sm:flex-initial px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium transition-colors border border-slate-200 text-center"
                 >
-                  Next Work →
+                  Next →
                 </button>
               )}
             </div>
 
-            <div className="flex items-center gap-3 w-full sm:w-auto">
-              <button
-                onClick={onClose}
-                className="flex-1 sm:flex-none px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-50 text-xs font-semibold transition-colors text-center"
-              >
-                Close Preview
-              </button>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-2.5 w-full sm:w-auto">
+              {project.githubUrl && (
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-black text-white text-xs font-semibold transition-all shadow-xs flex items-center justify-center gap-2"
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                    <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+                  </svg>
+                  <span>View on GitHub</span>
+                </a>
+              )}
               <Link
                 href={`/projects/${project.slug}`}
-                className="flex-1 sm:flex-none px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition-all shadow-sm flex items-center justify-center gap-1.5"
+                className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition-all shadow-sm flex items-center justify-center gap-1.5"
               >
-                <span>Full Case Study Page</span>
+                <span>Full Page</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
@@ -251,6 +219,7 @@ export default function ProjectModal({
           </div>
         </motion.div>
       </div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }

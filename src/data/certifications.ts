@@ -2,9 +2,9 @@ export interface Certification {
   id: string;
   title: string;
   subtitle?: string;
-  issuer: "Microsoft" | "Codebasics" | "Coursera" | "HackerRank";
+  issuer: "Microsoft" | "Codebasics" | "Coursera" | "HackerRank" | "Udemy";
   issuerBadge: string;
-  category: "Business Intelligence" | "Data Analytics" | "SQL & Databases" | "Awards & Honors";
+  category: "Business Intelligence" | "Data Analytics" | "SQL & Databases" | "Awards & Honors" | "Python & Statistics";
   issueDate: string;
   expiryDate?: string;
   credentialId?: string;
@@ -61,6 +61,44 @@ export const CERTIFICATIONS: Certification[] = [
     highlightText: "🏆 3rd Prize Winner",
   },
   {
+    id: "udemy-python-bootcamp",
+    title: "The Complete Python Bootcamp From Zero to Hero in Python",
+    subtitle: "Comprehensive 22.5 Hours Python Engineering by Jose Portilla",
+    issuer: "Udemy",
+    issuerBadge: "Udemy Certified Completion",
+    category: "Python & Statistics",
+    issueDate: "Oct. 12, 2026",
+    credentialId: "UC-afcf188c-dfba-490e-ad91-5329139181d4",
+    verifyUrl: "https://ude.my/UC-afcf188c-dfba-490e-ad91-5329139181d4",
+    image: "/certificates/udemy-python-bootcamp.png",
+    pdf: "/certificates/udemy-python-bootcamp.pdf",
+    badgeColor: "#a435f0",
+    accentGlow: "rgba(164, 53, 240, 0.25)",
+    description: "Completed 22.5 hours of comprehensive Python programming training instructed by Jose Portilla (Pierian Training), mastering object-oriented programming (OOP), complex data structures, generators, decorators, error handling, file I/O, and data analysis scripting.",
+    keySkills: ["Python", "OOP", "Data Structures", "Scripting", "Modules & Packages", "Error Handling", "File I/O"],
+    featured: true,
+    highlightText: "22.5 Hours Python",
+  },
+  {
+    id: "udemy-statistics-data-science",
+    title: "Statistics for Data Science and Business Analysis",
+    subtitle: "Statistical Foundations, Hypothesis Testing & Regression by 365 Careers",
+    issuer: "Udemy",
+    issuerBadge: "Udemy Certified Completion",
+    category: "Python & Statistics",
+    issueDate: "Oct. 12, 2026",
+    credentialId: "UC-8388df17-d6a2-4e77-9bef-1f4974abda63",
+    verifyUrl: "https://ude.my/UC-8388df17-d6a2-4e77-9bef-1f4974abda63",
+    image: "/certificates/udemy-statistics-data-science.png",
+    pdf: "/certificates/udemy-statistics-data-science.pdf",
+    badgeColor: "#059669",
+    accentGlow: "rgba(5, 150, 105, 0.25)",
+    description: "Mastered essential descriptive and inferential statistics for business decision making, including probability distributions, central limit theorem, confidence intervals, hypothesis testing (Z, t, and ANOVA), and linear regression analysis.",
+    keySkills: ["Descriptive Statistics", "Inferential Statistics", "Hypothesis Testing", "Confidence Intervals", "Regression Analysis", "Business Analytics"],
+    featured: true,
+    highlightText: "Statistical Modeling",
+  },
+  {
     id: "coursera-microsoft-power-bi-professional",
     title: "Microsoft Power BI Data Analyst Professional Certificate",
     subtitle: "Multi-course Specialization by Microsoft & Coursera",
@@ -81,7 +119,7 @@ export const CERTIFICATIONS: Certification[] = [
   {
     id: "codebasics-sql-beginner-to-advanced",
     title: "SQL Beginner to Advanced For Data Professionals",
-    subtitle: "Comprehensive 1.5M+ Record Real-World Business Analytics",
+    subtitle: "Comprehensive Real-World Enterprise Business Analytics",
     issuer: "Codebasics",
     issuerBadge: "Course Completion (>70% Final Exam)",
     category: "SQL & Databases",
@@ -91,10 +129,10 @@ export const CERTIFICATIONS: Certification[] = [
     pdf: "/certificates/codebasics-sql-beginner-to-advanced.pdf",
     badgeColor: "#10b981",
     accentGlow: "rgba(16, 185, 129, 0.25)",
-    description: "Mastered end-to-end relational database querying on massive real-time business datasets exceeding 1.5 million records. Completed practical business scenarios and cleared the final certification examination with >70% score.",
+    description: "Mastered end-to-end relational database querying on enterprise business datasets. Completed practical business scenarios and cleared the final certification examination with >70% score.",
     keySkills: ["MySQL", "Complex Joins", "Window Functions", "CTEs", "Subqueries", "Query Optimization", "Business Analytics"],
     featured: true,
-    highlightText: "1.5M+ Records Analyzed",
+    highlightText: "Enterprise SQL Querying",
   },
   {
     id: "hackerrank-sql-basic",
@@ -107,8 +145,8 @@ export const CERTIFICATIONS: Certification[] = [
     credentialId: "AD027BFF95A6",
     image: "/certificates/hackerrank-sql-basic.png",
     pdf: "/certificates/hackerrank-sql-basic.pdf",
-    badgeColor: "#22c55e",
-    accentGlow: "rgba(34, 197, 94, 0.25)",
+    badgeColor: "#16a34a",
+    accentGlow: "rgba(22, 163, 74, 0.25)",
     description: "Successfully cleared HackerRank's rigorous timed technical assessment evaluating fundamental and relational query proficiencies, aggregation filters, conditional logic, and relational integrity.",
     keySkills: ["SQL", "Relational Databases", "Data Filtering", "Aggregations", "Conditional Logic"],
     featured: false,

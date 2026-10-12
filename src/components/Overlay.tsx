@@ -117,7 +117,7 @@ export default function Overlay() {
             <span className="text-gradient-warm">actionable insights</span>
           </h2>
           <p className="mt-4 md:mt-6 text-sm md:text-base text-white/35 max-w-sm font-light leading-relaxed">
-            From million-record datasets to executive dashboards —
+            From complex enterprise datasets to executive dashboards —
             <br />
             delivering measurable business intelligence.
           </p>

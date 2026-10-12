@@ -10,7 +10,7 @@ export default function Footer() {
   return (
     <footer
       id="contact"
-      className="relative py-16 md:py-20 px-6 md:px-12 border-t border-slate-200/90 bg-[#f1f5f9] text-slate-800"
+      className="relative py-14 md:py-20 px-4 sm:px-6 md:px-12 border-t border-slate-200/90 bg-[#f1f5f9] text-slate-800"
     >
       <div ref={ref} className="max-w-6xl mx-auto">
         <motion.div
@@ -21,28 +21,22 @@ export default function Footer() {
         >
           {/* Left: Contact Info */}
           <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse inline-block" />
-              <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 font-mono">
-                Available for Data Analyst Roles &amp; Projects
-              </span>
-            </div>
             <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-5">
               Sweta Sah
             </h2>
-            <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
               <a
                 href="mailto:sahsweta99@gmail.com"
-                className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors flex items-center gap-2"
+                className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors flex items-center gap-2 break-all sm:break-normal"
               >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600 shrink-0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                 sahsweta99@gmail.com
               </a>
               <a
                 href="tel:+916291315041"
-                className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors flex items-center gap-2"
+                className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors flex items-center gap-2 shrink-0"
               >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600 shrink-0"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                 (+91) 6291315041
               </a>
             </div>
@@ -75,7 +69,7 @@ export default function Footer() {
               className="text-xs font-semibold px-4 py-2.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white transition-all flex items-center gap-2 shadow-md shadow-blue-600/20"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-              Resume PDF
+              Academic CV (PDF)
             </a>
           </div>
         </motion.div>
@@ -86,7 +80,7 @@ export default function Footer() {
             © {new Date().getFullYear()} Sweta Sah. All rights reserved.
           </span>
           <span className="text-xs text-slate-500 font-mono">
-            Kolkata, India
+            Data and Operations Analyst &bull; Prospective Graduate Student
           </span>
         </div>
       </div>

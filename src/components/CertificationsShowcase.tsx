@@ -31,7 +31,7 @@ export default function CertificationsShowcase() {
   return (
     <section
       id="certifications"
-      className="relative py-24 md:py-32 px-6 md:px-12 lg:px-20 overflow-hidden bg-[#f8fafc] text-slate-900 border-t border-slate-200/80"
+      className="relative py-16 md:py-32 px-4 sm:px-6 md:px-12 lg:px-20 overflow-hidden bg-[#f8fafc] text-slate-900 border-t border-slate-200/80"
     >
       <div ref={sectionRef} className="max-w-6xl mx-auto relative z-10">
         {/* Section Header */}
@@ -47,10 +47,10 @@ export default function CertificationsShowcase() {
                 Accreditations &amp; Honors
               </span>
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 leading-[1.08]">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 leading-[1.08]">
               Professional Certifications
             </h2>
-            <p className="mt-4 text-base text-slate-600 max-w-xl font-light leading-relaxed">
+            <p className="mt-4 text-sm sm:text-base text-slate-600 max-w-xl font-light leading-relaxed">
               Demonstrated expertise across Microsoft Power BI, enterprise SQL querying, and competitive analytics challenges — backed by verifiable industry credentials.
             </p>
           </motion.div>
@@ -66,7 +66,7 @@ export default function CertificationsShowcase() {
               href="/certifications"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white transition-all text-sm font-semibold shadow-md shadow-blue-500/25 group"
             >
-              <span>View All 5 Certificates</span>
+              <span>View All {CERTIFICATIONS.length} Credentials</span>
               <svg
                 width="15"
                 height="15"
@@ -92,7 +92,7 @@ export default function CertificationsShowcase() {
           className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12"
         >
           <div className="p-5 rounded-2xl bg-white border border-slate-200/90 border-t-4 border-t-blue-600 shadow-sm">
-            <div className="text-2xl sm:text-3xl font-bold text-blue-600">5</div>
+            <div className="text-2xl sm:text-3xl font-bold text-blue-600">{CERTIFICATIONS.length}</div>
             <div className="text-xs text-slate-600 mt-1 font-semibold">Verified Credentials</div>
           </div>
           <div className="p-5 rounded-2xl bg-white border border-slate-200/90 border-t-4 border-t-sky-600 shadow-sm">
@@ -104,8 +104,8 @@ export default function CertificationsShowcase() {
             <div className="text-xs text-slate-600 mt-1 font-semibold">Codebasics Challenge</div>
           </div>
           <div className="p-5 rounded-2xl bg-white border border-slate-200/90 border-t-4 border-t-emerald-600 shadow-sm">
-            <div className="text-2xl sm:text-3xl font-bold text-emerald-600">1.5M+</div>
-            <div className="text-xs text-slate-600 mt-1 font-semibold">Records SQL Exam</div>
+            <div className="text-2xl sm:text-3xl font-bold text-emerald-600">&gt;70%</div>
+            <div className="text-xs text-slate-600 mt-1 font-semibold">SQL Final Exam Score</div>
           </div>
         </motion.div>
 

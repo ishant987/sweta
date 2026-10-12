@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Certification } from "@/data/certifications";
 
@@ -18,6 +19,11 @@ export default function CertificateModal({
   onPrev,
 }: CertificateModalProps) {
   const [copied, setCopied] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -29,7 +35,18 @@ export default function CertificateModal({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [onClose, onNext, onPrev]);
 
-  if (!certificate) return null;
+  useEffect(() => {
+    if (!mounted) return;
+    if (certificate) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [mounted, certificate]);
+
+  if (!mounted || !certificate) return null;
 
   const idToCopy = certificate.credentialId || certificate.guid;
 
@@ -41,16 +58,16 @@ export default function CertificateModal({
     }
   };
 
-  return (
+  return createPortal(
     <AnimatePresence>
-      <div className="fixed inset-0 z-[80] flex items-center justify-center p-4 sm:p-6 md:p-8 pt-20 sm:pt-20 md:pt-24">
+      <div className="fixed inset-0 z-[90] flex items-center justify-center p-3 sm:p-6 md:p-8 pt-16 sm:pt-20 md:pt-24">
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="absolute inset-0 bg-black/70 backdrop-blur-sm cursor-pointer"
+          className="absolute inset-0 bg-black/75 backdrop-blur-md cursor-pointer"
         />
 
         {/* Modal Card */}
@@ -59,14 +76,14 @@ export default function CertificateModal({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.96, y: 20 }}
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="relative z-10 w-full max-w-5xl max-h-[85vh] overflow-y-auto bg-white border border-slate-200/90 rounded-2xl md:rounded-3xl shadow-2xl flex flex-col lg:flex-row overflow-hidden text-slate-900"
+          className="relative z-10 w-full max-w-5xl max-h-[88vh] sm:max-h-[85vh] overflow-y-auto bg-white border border-slate-200/90 rounded-2xl md:rounded-3xl shadow-2xl flex flex-col lg:flex-row overflow-hidden text-slate-900"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Close button */}
           <button
             onClick={onClose}
             aria-label="Close modal"
-            className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-black flex items-center justify-center transition-all border border-slate-200 shadow-xs"
+            className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-black flex items-center justify-center transition-all border border-slate-200 shadow-xs"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -75,7 +92,7 @@ export default function CertificateModal({
           </button>
 
           {/* Left: Certificate Preview */}
-          <div className="lg:w-7/12 bg-slate-100/90 p-6 sm:p-8 md:p-10 flex flex-col items-center justify-center relative border-b lg:border-b-0 lg:border-r border-slate-200">
+          <div className="lg:w-7/12 bg-slate-100/90 p-4 sm:p-8 md:p-10 flex flex-col items-center justify-center relative border-b lg:border-b-0 lg:border-r border-slate-200">
             <div className="relative w-full rounded-xl overflow-hidden border border-slate-200/90 shadow-xl group bg-white">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -131,7 +148,7 @@ export default function CertificateModal({
           </div>
 
           {/* Right: Certificate Details */}
-          <div className="lg:w-5/12 p-6 sm:p-8 flex flex-col justify-between bg-white">
+          <div className="lg:w-5/12 p-4 sm:p-8 flex flex-col justify-between bg-white">
             <div>
               {/* Badge & Category */}
               <div className="flex flex-wrap items-center gap-2 mb-4">
@@ -244,6 +261,7 @@ export default function CertificateModal({
           </div>
         </motion.div>
       </div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }

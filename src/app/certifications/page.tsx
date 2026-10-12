@@ -12,6 +12,7 @@ const CATEGORIES = [
   "All",
   "Business Intelligence",
   "SQL & Databases",
+  "Python & Statistics",
   "Awards & Honors",
 ] as const;
 
@@ -66,7 +67,7 @@ export default function CertificationsPage() {
       <Navbar />
 
       {/* Hero Header */}
-      <section className="relative pt-32 pb-16 md:pt-44 md:pb-20 px-6 md:px-12 lg:px-20 overflow-hidden bg-slate-50 border-b border-slate-200/80">
+      <section className="relative pt-28 pb-14 md:pt-44 md:pb-20 px-4 sm:px-6 md:px-12 lg:px-20 overflow-hidden bg-slate-50 border-b border-slate-200/80">
         <div className="max-w-6xl mx-auto relative z-10">
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-xs text-slate-500 mb-6 font-mono font-medium">
@@ -84,7 +85,7 @@ export default function CertificationsPage() {
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-slate-900 leading-[1.05] mb-5">
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tight text-slate-900 leading-[1.05] mb-5">
             Certifications &amp; Accreditations
           </h1>
 
@@ -95,7 +96,7 @@ export default function CertificationsPage() {
           {/* Professional Metrics Bar */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs">
             <div>
-              <div className="text-2xl sm:text-3xl font-bold text-blue-600">5</div>
+              <div className="text-2xl sm:text-3xl font-bold text-blue-600">{CERTIFICATIONS.length}</div>
               <div className="text-xs text-slate-600 mt-1 font-semibold">Verified Credentials</div>
             </div>
             <div>
@@ -115,7 +116,7 @@ export default function CertificationsPage() {
       </section>
 
       {/* Filter and Search Section */}
-      <section className="px-6 md:px-12 lg:px-20 py-8">
+      <section className="px-4 sm:px-6 md:px-12 lg:px-20 py-6 sm:py-8">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 py-4 border-b border-slate-200/80">
           {/* Category Tabs */}
           <div className="flex flex-wrap items-center gap-2">
@@ -130,7 +131,7 @@ export default function CertificationsPage() {
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
-                  className={`text-xs px-4 py-2 rounded-full font-medium transition-all duration-200 flex items-center gap-1.5 ${
+                  className={`text-xs px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full font-medium transition-all duration-200 flex items-center gap-1.5 ${
                     isActive
                       ? "bg-blue-600 text-white font-semibold shadow-sm"
                       : "bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-slate-200/90"
@@ -150,7 +151,7 @@ export default function CertificationsPage() {
           </div>
 
           {/* Search input */}
-          <div className="relative min-w-[260px]">
+          <div className="relative min-w-[240px] sm:min-w-[260px]">
             <input
               type="text"
               value={searchQuery}
@@ -183,7 +184,7 @@ export default function CertificationsPage() {
       </section>
 
       {/* Certifications Detailed Grid */}
-      <section className="px-6 md:px-12 lg:px-20 pb-28">
+      <section className="px-4 sm:px-6 md:px-12 lg:px-20 pb-20 sm:pb-28">
         <div className="max-w-6xl mx-auto">
           {filteredCerts.length === 0 ? (
             <div className="text-center py-24 bg-white border border-slate-200 rounded-2xl shadow-2xs">
@@ -329,10 +330,10 @@ export default function CertificationsPage() {
                       </div>
 
                       {/* Action Buttons */}
-                      <div className="pt-6 border-t border-slate-100 flex flex-wrap items-center gap-3">
+                      <div className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3">
                         <button
                           onClick={() => setSelectedCertIndex(globalIndex)}
-                          className="flex-1 min-w-[140px] px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-semibold text-xs transition-colors border border-slate-300 flex items-center justify-center gap-2 shadow-2xs"
+                          className="w-full sm:flex-1 px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-semibold text-xs transition-colors border border-slate-300 flex items-center justify-center gap-2 shadow-2xs"
                         >
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -346,7 +347,7 @@ export default function CertificationsPage() {
                             href={cert.verifyUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex-1 min-w-[140px] px-4 py-2.5 rounded-xl text-white font-semibold text-xs transition-all flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 shadow-sm"
+                            className="w-full sm:flex-1 px-4 py-2.5 rounded-xl text-white font-semibold text-xs transition-all flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 shadow-sm"
                           >
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -360,7 +361,7 @@ export default function CertificationsPage() {
                             href={cert.pdf}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex-1 min-w-[140px] px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-semibold text-xs transition-colors border border-slate-300 flex items-center justify-center gap-2 shadow-2xs"
+                            className="w-full sm:flex-1 px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-semibold text-xs transition-colors border border-slate-300 flex items-center justify-center gap-2 shadow-2xs"
                           >
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -379,6 +380,23 @@ export default function CertificationsPage() {
             </div>
           )}
         </div>
+      </section>
+
+      {/* Full Width Winners Banner */}
+      <section className="w-full bg-white border-t border-slate-200/90 overflow-hidden">
+        <a
+          href="/codebasics-challenge-winners.jpg"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Click to view full-resolution Winners Announcement"
+          className="block w-full cursor-zoom-in"
+        >
+          <img
+            src="/codebasics-challenge-winners.jpg"
+            alt="Codebasics Resume Project Challenge #6 Winners — Sweta Sah Ranked 3rd"
+            className="w-full h-auto block"
+          />
+        </a>
       </section>
 
       {/* Footer */}

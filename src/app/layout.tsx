@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Sweta Sah — Data Analyst Portfolio",
+  title: "Sweta Sah — Academic & Data Analytics Portfolio | Prospective Master's Candidate",
   description:
-    "A Data Analyst portfolio showcasing data operations, SQL, and Power BI expertise. Built with Next.js and Tailwind CSS.",
+    "Data and Operations Analyst with 3+ years of experience supporting AI-enabled digital transformation initiatives in the US Insurance, Mortgage and Banking domain. Experienced in requirements analysis, business process improvement, UAT, stakeholder collaboration, workflow implementation, and production support.",
 };
 
 export default function RootLayout({
